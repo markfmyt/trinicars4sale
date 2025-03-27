@@ -18,3 +18,6 @@ EXPOSE 8085
 
 # Run gunicorn when the container launches
 CMD ["gunicorn", "-c", "gunicorn_config.py", "wsgi:app"]
+
+# Run pytest when the container launches
+
