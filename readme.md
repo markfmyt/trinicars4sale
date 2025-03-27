@@ -192,27 +192,49 @@ If you are running into errors in gitpod when updateding your github actions fil
 
 If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file.
 
-# TriniCars4Sale E-commerce Platform
+# TriniCars4Sale
 
-A modern e-commerce platform built with Flask and React for selling cars in Trinidad and Tobago.
+TriniCars4Sale is a modern e-commerce platform specifically designed for buying and selling vehicles in Trinidad and Tobago. The application provides a user-friendly interface for car dealers and private sellers to list their vehicles, while offering potential buyers an easy way to browse and purchase cars.
 
 ## Features
 
+### For Buyers
+- Browse car listings with detailed information
+- Search and filter cars by various criteria (make, model, year, price range)
+- Direct messaging system to communicate with sellers
+- View seller profiles and their listings
+- Save favorite listings
+- View detailed car information including images and specifications
+
+### For Sellers
+- Create and manage car listings
+- Upload multiple images per listing
+- Set pricing and vehicle details
+- Receive and respond to buyer inquiries
+- Track listing views and messages
+- Manage multiple listings from a dashboard
+
+### General Features
 - User authentication and authorization
-- Product management with categories
-- Shopping cart functionality
-- Order management
-- Admin dashboard with analytics
-- Secure payment processing
-- Responsive design
+- Responsive design for mobile and desktop
+- Real-time messaging system
+- Image upload and management
+- Category-based organization
+- Search functionality
+- User profiles with activity history
 
-## Prerequisites
+## Technology Stack
 
-- Python 3.8 or higher
-- Node.js 14 or higher
-- PostgreSQL (optional, SQLite is used by default)
+- **Backend**: Python/Flask
+- **Database**: SQLite (SQLAlchemy ORM)
+- **Frontend**: HTML5, CSS3, JavaScript
+- **UI Framework**: Bootstrap 5
+- **Authentication**: Flask-Login
+- **File Upload**: Flask-Upload
+- **Forms**: Flask-WTF
+- **API**: Flask-JWT-Extended
 
-## Setup
+## Setup Instructions
 
 1. Clone the repository:
 ```bash
@@ -226,75 +248,42 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install Python dependencies:
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
 4. Set up environment variables:
-- Copy `.env.example` to `.env`
-- Update the values in `.env` with your configuration
+Create a `.env` file in the root directory with the following variables:
+```
+FLASK_APP=wsgi.py
+FLASK_ENV=development
+SECRET_KEY=your-secret-key
+UPLOAD_FOLDER=uploads
+```
 
 5. Initialize the database:
 ```bash
-flask db init
-flask db migrate
-flask db upgrade
+flask init-db
+flask init-categories
 ```
 
-6. Create an admin user:
-```bash
-flask create-admin
-```
-
-## Running the Application
-
-1. Start the Flask development server:
+6. Run the application:
 ```bash
 flask run
 ```
 
-2. The application will be available at `http://localhost:5000`
+The application will be available at `http://localhost:5000`
 
-## API Documentation
+## Database Structure
 
-### Authentication Endpoints
+The application uses the following main models:
 
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/profile` - Get user profile
-- `PUT /api/auth/profile` - Update user profile
-
-### Product Endpoints
-
-- `GET /api/products` - Get all products
-- `GET /api/products/<id>` - Get product details
-- `POST /api/products` - Create new product (admin only)
-- `PUT /api/products/<id>` - Update product (admin only)
-- `DELETE /api/products/<id>` - Delete product (admin only)
-
-### Order Endpoints
-
-- `POST /api/orders` - Create new order
-- `GET /api/orders` - Get user's orders
-- `GET /api/orders/<id>` - Get order details
-- `PUT /api/orders/<id>/status` - Update order status (admin only)
-
-### Admin Endpoints
-
-- `GET /api/admin/users` - Get all users (admin only)
-- `PUT /api/admin/users/<id>` - Update user (admin only)
-- `GET /api/admin/categories` - Get all categories (admin only)
-- `POST /api/admin/categories` - Create category (admin only)
-- `PUT /api/admin/categories/<id>` - Update category (admin only)
-- `GET /api/admin/analytics` - Get analytics data (admin only)
-
-## Testing
-
-Run the test suite:
-```bash
-pytest
-```
+- **User**: Stores user information and authentication details
+- **Product**: Contains car listing information
+- **Message**: Manages communication between users
+- **Order**: Tracks purchase transactions
+- **Category**: Organizes car listings by type
 
 ## Contributing
 
@@ -307,3 +296,13 @@ pytest
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Bootstrap for the UI framework
+- Font Awesome for icons
+- Flask community for the excellent framework and extensions
+
+## Support
+
+For support, please open an issue in the GitHub repository or contact the development team.
