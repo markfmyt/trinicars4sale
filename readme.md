@@ -191,3 +191,119 @@ If you are running into errors in gitpod when updateding your github actions fil
 ## Database Issues
 
 If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file.
+
+# TriniCars4Sale E-commerce Platform
+
+A modern e-commerce platform built with Flask and React for selling cars in Trinidad and Tobago.
+
+## Features
+
+- User authentication and authorization
+- Product management with categories
+- Shopping cart functionality
+- Order management
+- Admin dashboard with analytics
+- Secure payment processing
+- Responsive design
+
+## Prerequisites
+
+- Python 3.8 or higher
+- Node.js 14 or higher
+- PostgreSQL (optional, SQLite is used by default)
+
+## Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/TriniCars4Sale.git
+cd TriniCars4Sale
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Set up environment variables:
+- Copy `.env.example` to `.env`
+- Update the values in `.env` with your configuration
+
+5. Initialize the database:
+```bash
+flask db init
+flask db migrate
+flask db upgrade
+```
+
+6. Create an admin user:
+```bash
+flask create-admin
+```
+
+## Running the Application
+
+1. Start the Flask development server:
+```bash
+flask run
+```
+
+2. The application will be available at `http://localhost:5000`
+
+## API Documentation
+
+### Authentication Endpoints
+
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/profile` - Get user profile
+- `PUT /api/auth/profile` - Update user profile
+
+### Product Endpoints
+
+- `GET /api/products` - Get all products
+- `GET /api/products/<id>` - Get product details
+- `POST /api/products` - Create new product (admin only)
+- `PUT /api/products/<id>` - Update product (admin only)
+- `DELETE /api/products/<id>` - Delete product (admin only)
+
+### Order Endpoints
+
+- `POST /api/orders` - Create new order
+- `GET /api/orders` - Get user's orders
+- `GET /api/orders/<id>` - Get order details
+- `PUT /api/orders/<id>/status` - Update order status (admin only)
+
+### Admin Endpoints
+
+- `GET /api/admin/users` - Get all users (admin only)
+- `PUT /api/admin/users/<id>` - Update user (admin only)
+- `GET /api/admin/categories` - Get all categories (admin only)
+- `POST /api/admin/categories` - Create category (admin only)
+- `PUT /api/admin/categories/<id>` - Update category (admin only)
+- `GET /api/admin/analytics` - Get analytics data (admin only)
+
+## Testing
+
+Run the test suite:
+```bash
+pytest
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

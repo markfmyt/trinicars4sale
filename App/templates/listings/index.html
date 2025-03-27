@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Cars - TriniCars4Sale{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Search and Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-3">
+                    <label for="make" class="form-label">Make</label>
+                    <select name="make" id="make" class="form-select">
+                        <option value="">All Makes</option>
+                        {% for make in makes %}
+                        <option value="{{ make[0] }}" {% if request.args.get('make') == make[0] %}selected{% endif %}>
+                            {{ make[0] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="year" class="form-label">Year</label>
+                    <select name="year" id="year" class="form-select">
+                        <option value="">All Years</option>
+                        {% for year in years %}
+                        <option value="{{ year[0] }}" {% if request.args.get('year')|int == year[0] %}selected{% endif %}>
+                            {{ year[0] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="min_price" class="form-label">Min Price</label>
+                    <input type="number" name="min_price" id="min_price" class="form-control" 
+                           value="{{ request.args.get('min_price', '') }}" placeholder="Min Price">
+                </div>
+                <div class="col-md-3">
+                    <label for="max_price" class="form-label">Max Price</label>
+                    <input type="number" name="max_price" id="max_price" class="form-control" 
+                           value="{{ request.args.get('max_price', '') }}" placeholder="Max Price">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <a href="{{ url_for('listings.get_listings') }}" class="btn btn-secondary">Clear Filters</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Listings Grid -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100">
+                {% if product.is_premium %}
+                <div class="position-absolute top-0 end-0 m-2">
+                    <span class="badge bg-warning">Premium</span>
+                </div>
+                {% endif %}
+                <img src="{{ url_for('static', filename=product.image_url) }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.year }} {{ product.make }} {{ product.model }}</p>
+                    <p class="card-text"><strong>${{ "%.2f"|format(product.price) }}</strong></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">{{ product.mileage }} miles</small>
+                        <a href="{{ url_for('listings.get_listing', id=product.id) }}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No cars found matching your criteria.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    <li class="page-item {% if page == pagination.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('listings.get_listings', page=page, **request.args) }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %} 

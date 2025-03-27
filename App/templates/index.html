@@ -1,13 +1,270 @@
-{% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
+{% extends "base.html" %}
 
-{{ super() }}
+{% block title %}Home - TriniCars4Sale{% endblock %}
 
 {% block content %}
-    <h1>Flask MVC</h1>
-    {% if is_authenticated %}
-        <p> Welcome {{current_user.username}} </p>
-    {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+<!-- Hero Section with Carousel -->
+<div class="hero-section">
+    <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='images/car (1).jpg') }}" class="d-block w-100" alt="Car 1">
+                <div class="carousel-caption">
+                    <h1>Find Your Dream Car</h1>
+                    <p class="lead">Browse through our extensive collection of quality vehicles</p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="{{ url_for('listings.get_listings') }}" class="btn btn-primary btn-lg">Browse Cars</a>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('listings.create_listing') }}" class="btn btn-success btn-lg">Sell Your Car</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg">Sell Your Car</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/car (2).jpg') }}" class="d-block w-100" alt="Car 2">
+                <div class="carousel-caption">
+                    <h2>SUV Special</h2>
+                    <p>Starting from $55,000</p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="{{ url_for('listings.get_listings') }}" class="btn btn-primary">View Details</a>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('listings.create_listing') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/car (3).jpg') }}" class="d-block w-100" alt="Car 3">
+                <div class="carousel-caption">
+                    <h2>Sports Car</h2>
+                    <p>Starting from $75,000</p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="{{ url_for('listings.get_listings') }}" class="btn btn-primary">View Details</a>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('listings.create_listing') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/car (4).jpg') }}" class="d-block w-100" alt="Car 4">
+                <div class="carousel-caption">
+                    <h2>Electric Vehicle</h2>
+                    <p>Starting from $65,000</p>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="{{ url_for('listings.get_listings') }}" class="btn btn-primary">View Details</a>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('listings.create_listing') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-success">Advertise Your Car</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Wide Selection</h3>
+                <p>Browse through hundreds of cars from trusted sellers across Trinidad and Tobago.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Trusted Sellers</h3>
+                <p>All our sellers are verified members ensuring safe and secure transactions.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Easy Process</h3>
+                <p>Simple and straightforward process to buy or sell your car with direct messaging.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Cars Section -->
+<div class="container mt-5">
+    <div class="section-header">
+        <h2>Featured Cars</h2>
+        <p class="lead text-muted">Discover our top picks for you</p>
+    </div>
+    <div class="row g-4">
+        {% for product in featured_products %}
+        <div class="col-md-3">
+            <div class="car-card">
+                <div class="car-image">
+                    <img src="{{ url_for('static', filename=product.image_url) }}" alt="{{ product.name }}">
+                    {% if product.is_premium %}
+                    <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2">Premium</span>
+                    {% elif product.is_featured %}
+                    <span class="badge bg-info position-absolute top-0 end-0 m-2">Featured</span>
+                    {% endif %}
+                </div>
+                <div class="car-details">
+                    <h5>{{ product.name }}</h5>
+                    <p class="price">${{ "{:,.2f}".format(product.price) }}</p>
+                    <div class="specs">
+                        <span><i class="fas fa-calendar"></i> {{ product.year }}</span>
+                        <span><i class="fas fa-tachometer-alt"></i> {{ "{:,}".format(product.mileage) }} km</span>
+                    </div>
+                    <a href="{{ url_for('listings.get_listing', id=product.id) }}" class="btn btn-primary w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Hero Section */
+.hero-section {
+    margin-bottom: 4rem;
+}
+.carousel-item {
+    height: 600px;
+}
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    filter: brightness(0.7);
+}
+.carousel-caption {
+    bottom: 50%;
+    transform: translateY(50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.carousel-caption h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.carousel-caption .lead {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Feature Cards */
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-wrapper i {
+    font-size: 2rem;
+    color: #0d6efd;
+}
+
+/* Car Cards */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.car-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.car-card:hover {
+    transform: translateY(-5px);
+}
+.car-image {
+    position: relative;
+    height: 200px;
+}
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.car-details {
+    padding: 1.5rem;
+}
+.car-details h5 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+.price {
+    color: #0d6efd;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.specs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: #6c757d;
+}
+.specs span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var carousel = new bootstrap.Carousel(document.getElementById('carCarousel'), {
+        interval: 5000,
+        wrap: true,
+        pause: 'hover'
+    });
+});
+</script>
 {% endblock %}

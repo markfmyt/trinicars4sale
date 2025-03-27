@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}'s Profile - TriniCars4Sale{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- User Profile -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ user.username }}</h2>
+                    <p class="text-muted">Member since {{ user.created_at.strftime('%B %Y') }}</p>
+                    
+                    <div class="mb-3">
+                        <h5>Contact Information</h5>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        {% if user.phone %}
+                        <p><strong>Phone:</strong> {{ user.phone }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    {% if current_user.id == user.id %}
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        Edit Profile
+                    </button>
+                    {% else %}
+                    <a href="{{ url_for('messages.get_messages') }}?seller={{ user.username }}" class="btn btn-primary w-100">
+                        Send Message
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- User Stats -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Statistics</h5>
+                    <div class="row text-center">
+                        <div class="col">
+                            <h3>{{ user.listings|length }}</h3>
+                            <p class="text-muted">Listings</p>
+                        </div>
+                        {% if current_user.id == user.id %}
+                        <div class="col">
+                            <h3>{{ unread_messages }}</h3>
+                            <p class="text-muted">Unread Messages</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Content -->
+        <div class="col-md-8">
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#listings" type="button">
+                        Listings
+                    </button>
+                </li>
+                {% if current_user.id == user.id %}
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#messages" type="button">
+                        Messages
+                        {% if unread_messages > 0 %}
+                        <span class="badge bg-danger">{{ unread_messages }}</span>
+                        {% endif %}
+                    </button>
+                </li>
+                {% endif %}
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content mt-3">
+                <!-- Listings Tab -->
+                <div class="tab-pane fade show active" id="listings">
+                    {% if user.listings %}
+                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                            {% for listing in user.listings %}
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img src="{{ url_for('static', filename=listing.image_url) }}" class="card-img-top" alt="{{ listing.name }}">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <h5 class="card-title mb-0">{{ listing.name }}</h5>
+                                            <h5 class="text-primary mb-0">${{ "{:,.2f}".format(listing.price) }}</h5>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            {{ listing.year }} {{ listing.make }} {{ listing.model }}
+                                            {% if listing.is_premium %}
+                                            <span class="badge bg-warning text-dark">Premium</span>
+                                            {% elif listing.is_featured %}
+                                            <span class="badge bg-info">Featured</span>
+                                            {% endif %}
+                                        </p>
+                                        <div class="d-grid">
+                                            <a href="{{ url_for('listings.get_listing', id=listing.id) }}" class="btn btn-outline-primary">View Details</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">
+                                            Listed on {{ listing.created_at.strftime('%Y-%m-%d') }}
+                                            • {{ "{:,}".format(listing.views) }} views
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <h4>No Listings Yet</h4>
+                            {% if current_user.id == user.id %}
+                            <p>Ready to sell your car?</p>
+                            <a href="{{ url_for('listings.create_listing') }}" class="btn btn-primary">Create Your First Listing</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Messages Tab (Only visible to profile owner) -->
+                {% if current_user.id == user.id %}
+                <div class="tab-pane fade" id="messages">
+                    <div class="list-group">
+                        {% if received_messages %}
+                            {% for message in received_messages %}
+                            <div class="list-group-item list-group-item-action {% if not message.is_read %}active{% endif %}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">
+                                        From: {{ message.sender.username }}
+                                        {% if not message.is_read %}
+                                        <span class="badge bg-danger">New</span>
+                                        {% endif %}
+                                    </h5>
+                                    <small>{{ message.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                </div>
+                                <p class="mb-1">{{ message.content }}</p>
+                                <small>
+                                    Re: <a href="{{ url_for('listings.get_listing', id=message.product_id) }}">{{ message.product.name }}</a>
+                                </small>
+                                <div class="mt-2">
+                                    <button class="btn btn-sm btn-primary reply-btn" 
+                                            data-username="{{ message.sender.username }}"
+                                            data-product-id="{{ message.product_id }}">
+                                        Reply
+                                    </button>
+                                    <a href="{{ url_for('listings.get_listing', id=message.product_id) }}" class="btn btn-sm btn-outline-secondary">
+                                        View Listing
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center py-5">
+                                <h4>No Messages</h4>
+                                <p>You haven't received any messages yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+{% if current_user.id == user.id %}
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('auth.update_profile') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="{{ user.phone or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reply to Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="replyForm" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="replyContent" class="form-label">Your Message</label>
+                        <textarea class="form-control" id="replyContent" name="content" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle reply button clicks
+    document.querySelectorAll('.reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            const username = this.dataset.username;
+            const modal = new bootstrap.Modal(document.getElementById('replyModal'));
+            const form = document.getElementById('replyForm');
+            
+            form.action = `/messages/send/${productId}`;
+            document.querySelector('.modal-title').textContent = `Reply to ${username}`;
+            modal.show();
+        });
+    });
+    
+    // Mark messages as read when they're viewed
+    if (document.querySelector('#messages.active')) {
+        document.querySelectorAll('.list-group-item.active').forEach(item => {
+            const messageId = item.dataset.messageId;
+            fetch(`/messages/${messageId}/read`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %} 

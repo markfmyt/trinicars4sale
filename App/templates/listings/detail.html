@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - TriniCars4Sale{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h2 class="card-title mb-0">
+                            {{ product.name }}
+                            {% if product.is_premium %}
+                            <span class="badge bg-warning text-dark">Premium</span>
+                            {% elif product.is_featured %}
+                            <span class="badge bg-info">Featured</span>
+                            {% endif %}
+                            {% if product.is_negotiable %}
+                            <span class="badge bg-success">Negotiable</span>
+                            {% endif %}
+                        </h2>
+                        <h3 class="text-primary mb-0">${{ "{:,.2f}".format(product.price) }}</h3>
+                    </div>
+                    
+                    <img src="{{ url_for('static', filename=product.image_url) }}" class="img-fluid rounded mb-3" alt="{{ product.name }}">
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h4>Vehicle Details</h4>
+                            <table class="table">
+                                <tr>
+                                    <th>Make:</th>
+                                    <td>{{ product.make }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Model:</th>
+                                    <td>{{ product.model }}</td>
+                                </tr>
+                                {% if product.series %}
+                                <tr>
+                                    <th>Series:</th>
+                                    <td>{{ product.series }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <th>Year:</th>
+                                    <td>{{ product.year }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mileage:</th>
+                                    <td>{{ "{:,}".format(product.mileage) }} km</td>
+                                </tr>
+                                <tr>
+                                    <th>Transmission:</th>
+                                    <td>{{ product.transmission }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fuel Type:</th>
+                                    <td>{{ product.fuel_type }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Color:</th>
+                                    <td>{{ product.color }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Contact Information</h4>
+                            <table class="table">
+                                <tr>
+                                    <th>Seller:</th>
+                                    <td>
+                                        <a href="{{ url_for('auth.profile', username=product.seller.username) }}">
+                                            {{ product.seller.username }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Contact:</th>
+                                    <td>{{ product.contact_number }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Listed:</th>
+                                    <td>{{ product.created_at.strftime('%Y-%m-%d') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Views:</th>
+                                    <td>{{ "{:,}".format(product.views) }}</td>
+                                </tr>
+                            </table>
+                            
+                            {% if current_user.is_authenticated and current_user.id != product.seller_id %}
+                            <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#messageModal">
+                                Contact Seller
+                            </button>
+                            {% endif %}
+                            
+                            <a href="{{ url_for('auth.profile', username=product.seller.username) }}" class="btn btn-outline-primary w-100">
+                                View Seller Profile
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <h4>Description</h4>
+                    <p class="card-text">{{ product.description }}</p>
+                    
+                    {% if current_user.is_authenticated and current_user.id == product.seller_id %}
+                    <div class="mt-4">
+                        <a href="{{ url_for('listings.edit_listing', id=product.id) }}" class="btn btn-primary me-2">Edit Listing</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            Delete Listing
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Similar Listings</h4>
+                    <!-- Add similar listings here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Modal -->
+{% if current_user.is_authenticated and current_user.id != product.seller_id %}
+<div class="modal fade" id="messageModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message Seller</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('messages.send_message') }}" method="POST">
+                <input type="hidden" name="recipient_id" value="{{ product.seller_id }}">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="messageContent" class="form-label">Your Message</label>
+                        <textarea class="form-control" id="messageContent" name="content" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Delete Confirmation Modal -->
+{% if current_user.is_authenticated and current_user.id == product.seller_id %}
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this listing? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('listings.delete_listing', id=product.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %} 

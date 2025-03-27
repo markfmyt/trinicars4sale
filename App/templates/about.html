@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - TriniCars4Sale{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">About TriniCars4Sale</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2>Our Mission</h2>
+                <p>TriniCars4Sale is dedicated to providing a trusted platform for buying and selling vehicles in Trinidad and Tobago. We aim to make the car buying and selling process simple, transparent, and secure for all our users.</p>
+                
+                <h2 class="mt-4">Why Choose Us?</h2>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5><i class="fas fa-check-circle text-success"></i> Verified Sellers</h5>
+                                <p>All our sellers are verified to ensure a safe and reliable marketplace.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5><i class="fas fa-shield-alt text-primary"></i> Secure Platform</h5>
+                                <p>Your security is our top priority with secure payment processing and user verification.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5><i class="fas fa-headset text-info"></i> Customer Support</h5>
+                                <p>Our dedicated support team is here to help you throughout your car buying journey.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="mt-4">Our Story</h2>
+                <p>Founded in 2024, TriniCars4Sale emerged from a vision to revolutionize the car buying and selling experience in Trinidad and Tobago. We understand the challenges that both buyers and sellers face in the traditional car market, and we're here to provide a better solution.</p>
+                
+                <h2 class="mt-4">Join Our Community</h2>
+                <p>Whether you're looking to buy or sell a car, TriniCars4Sale is the perfect platform for you. Join our growing community of car enthusiasts and make your car buying or selling experience a breeze.</p>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Get Started Today</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
