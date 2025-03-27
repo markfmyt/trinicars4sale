@@ -44,7 +44,7 @@ TriniCars4Sale is a modern e-commerce platform specifically designed for buying 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/TriniCars4Sale.git
+git clone https://github.com/markfmyt/TriniCars4Sale.git
 cd TriniCars4Sale
 ```
 
@@ -79,7 +79,7 @@ flask init-categories
 flask run
 ```
 
-The application will be available at `http://localhost:5000`
+The application will be available at `http://localhost:8080`
 
 ## Database Structure
 
