@@ -1,5 +1,5 @@
 App/temp-database.db
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files and other files
 __pycache__/
 *.py[cod]
 *$py.class

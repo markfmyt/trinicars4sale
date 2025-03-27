@@ -62,8 +62,6 @@ context('The /static/users page', ()=>{
       expect(await page.title()).to.eql("App Users")
   });
 
-  //hello im on nick branch
-
   describe("Test 3: Page should have a users table header", () => {
     it("First table header should be 'Id'", async () => {
       const html = await page.$eval('tr>th:nth-child(1)', (e) => e.innerHTML);
@@ -81,24 +79,6 @@ context('The /static/users page', ()=>{
     });
 
   })
-
-  // it('Test 2: Should user table header on page', async ()=>{
-  //   await page.waitForSelector('#pokemon-detail')
-
-  //   let searchKeys = [ 'grass', '1', '6.9', '0.7' ]
-
-  //   let result = await getHTML('#pokemon-detail');
-
-  //   let count = 0;
-
-  //   for(let key of searchKeys){
-  //     if(result.includes(key))count++
-  //   }
-
-  //   expect(count).to.eql(4);
-      
-  // }).timeout(2000);
-
 
 });
 

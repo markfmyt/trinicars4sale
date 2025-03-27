@@ -17,3 +17,5 @@ loglevel = 'info'
 # Where to log to
 accesslog = '-'  # '-' means log to stdout
 errorlog = '-'  # '-' means log to stderr
+
+# The number of seconds to wait for a response from a worker before timing out.

@@ -16,6 +16,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Make port 8080 available to the world outside this container
 EXPOSE 8085
 
-
 # Run gunicorn when the container launches
 CMD ["gunicorn", "-c", "gunicorn_config.py", "wsgi:app"]

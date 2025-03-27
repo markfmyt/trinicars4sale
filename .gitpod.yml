@@ -16,3 +16,11 @@ image:
 #     pullRequests: true
 #     addCheck: true
 #     addComment: true
+
+# github:
+#   prebuilds:
+#     master: true
+#     branches: false
+#     pullRequests: true
+#     addCheck: true
+#     addComment: true
