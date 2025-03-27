@@ -91,24 +91,8 @@ The application uses the following main models:
 - **Order**: Tracks purchase transactions
 - **Category**: Organizes car listings by type
 
-## Contributing
+## Additional Images
+![listings](https://github.com/user-attachments/assets/949d3fb0-fe4b-4a55-8534-64125e5df417)
+![lambo listing](https://github.com/user-attachments/assets/e4568240-b601-4b1e-b97d-42213750aafe)
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Bootstrap for the UI framework
-- Font Awesome for icons
-- Flask community for the excellent framework and extensions
-
-## Support
-
-For support, please open an issue in the GitHub repository or contact the development team.
