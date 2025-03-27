@@ -1,3 +1,4 @@
+# Gitpod docker file
 FROM gitpod/workspace-full
 
 USER gitpod
