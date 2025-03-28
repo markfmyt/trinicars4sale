@@ -1,7 +1,7 @@
 # TriniCars4Sale
 
 TriniCars4Sale is a modern e-commerce platform specifically designed for buying and selling vehicles in Trinidad and Tobago. The application provides a user-friendly interface for car dealers and private sellers to list their vehicles, while offering potential buyers an easy way to browse and purchase cars.
-
+![image](https://github.com/user-attachments/assets/3494bbc2-4208-4428-91a7-1fd074ec75d4)
 ## Features
 
 ### For Buyers
@@ -68,10 +68,18 @@ SECRET_KEY=your-secret-key
 UPLOAD_FOLDER=uploads
 ```
 
-5. Initialize the database:
+5. Initialize the database and sample data:
 ```bash
+# First, reset the database to ensure a clean state
 flask init-db
+
+# Initialize the required categories for car listings
 flask init-categories
+
+# Initialize sample data including:
+# - Demo user account (mark@mail.com)
+# - Sample car listings (Lamborghini, Tesla, Mitsubishi, Mercedes)
+flask init-sample-data
 ```
 
 6. Run the application:
@@ -80,6 +88,13 @@ flask run
 ```
 
 The application will be available at `http://localhost:8080`
+
+The application comes with pre-loaded sample data for demonstration purposes:
+
+### Demo User Account
+- **Email**: mark@mail.com
+- **Password**: 1
+- **Phone**: +1-868-123-4567
 
 ## Database Structure
 
@@ -91,24 +106,8 @@ The application uses the following main models:
 - **Order**: Tracks purchase transactions
 - **Category**: Organizes car listings by type
 
-## Contributing
+## Additional Images
+![listings](https://github.com/user-attachments/assets/949d3fb0-fe4b-4a55-8534-64125e5df417)
+![lambo listing](https://github.com/user-attachments/assets/e4568240-b601-4b1e-b97d-42213750aafe)
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Bootstrap for the UI framework
-- Font Awesome for icons
-- Flask community for the excellent framework and extensions
-
-## Support
-
-For support, please open an issue in the GitHub repository or contact the development team.
