@@ -35,7 +35,7 @@ TriniCars4Sale is a modern e-commerce platform specifically designed for buying 
 
 - **Backend**: Python/Flask
 - **Database**: SQLite (SQLAlchemy ORM)
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: Jinja, HTML5, CSS3, JavaScript
 - **UI Framework**: Bootstrap 5
 - **Authentication**: Flask-Login
 - **File Upload**: Flask-Upload
