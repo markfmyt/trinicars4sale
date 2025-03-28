@@ -1,5 +1,4 @@
 import os
-
 def load_config(app, overrides):
     if os.path.exists(os.path.join('./App', 'custom_config.py')):
         app.config.from_object('App.custom_config')
