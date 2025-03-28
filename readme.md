@@ -1,7 +1,9 @@
 # TriniCars4Sale
 
 TriniCars4Sale is a modern e-commerce platform specifically designed for buying and selling vehicles in Trinidad and Tobago. The application provides a user-friendly interface for car dealers and private sellers to list their vehicles, while offering potential buyers an easy way to browse and purchase cars.
+
 ![image](https://github.com/user-attachments/assets/3494bbc2-4208-4428-91a7-1fd074ec75d4)
+
 ## Features
 
 ### For Buyers
