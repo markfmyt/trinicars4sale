@@ -11,7 +11,6 @@ TriniCars4Sale is a modern e-commerce platform specifically designed for buying 
 - Search and filter cars by various criteria (make, model, year, price range)
 - Direct messaging system to communicate with sellers
 - View seller profiles and their listings
-- Save favorite listings
 - View detailed car information including images and specifications
 
 ### For Sellers
