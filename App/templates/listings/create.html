@@ -126,15 +126,121 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="listing_tier" class="form-label">Listing Tier</label>
-                                    <select class="form-select" id="listing_tier" name="listing_tier" required>
-                                        <option value="standard">Standard</option>
-                                        <option value="featured">Featured</option>
-                                        <option value="premium">Premium</option>
+                                    <select class="form-select" id="listing_tier" name="listing_tier" required onchange="updatePrice()">
+                                        <option value="Standard">Standard</option>
+                                        <option value="Featured">Featured</option>
+                                        <option value="Premium">Premium</option>
                                     </select>
-                                    <div class="form-text">
-                                        Premium: Top placement, highlighted listing, more photos<br>
-                                        Featured: Better placement, highlighted listing<br>
-                                        Standard: Basic listing
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Section -->
+                        <div class="mb-4">
+                            <h4>Listing Tier & Payment</h4>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-primary">
+                                                <div class="card-header bg-primary text-white">Standard</div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">$100 TTD</h5>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fas fa-check text-success"></i> Basic listing</li>
+                                                        <li><i class="fas fa-check text-success"></i> Standard placement</li>
+                                                        <li><i class="fas fa-check text-success"></i> 1 photo upload</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-info">
+                                                <div class="card-header bg-info text-white">Featured</div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">$150 TTD</h5>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fas fa-check text-success"></i> Better placement</li>
+                                                        <li><i class="fas fa-check text-success"></i> Highlighted listing</li>
+                                                        <li><i class="fas fa-check text-success"></i> 3 photo uploads</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-warning">
+                                                <div class="card-header bg-warning text-dark">Premium</div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">$200 TTD</h5>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fas fa-check text-success"></i> Top placement</li>
+                                                        <li><i class="fas fa-check text-success"></i> Premium highlighted listing</li>
+                                                        <li><i class="fas fa-check text-success"></i> 5 photo uploads</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="mb-3">Select Payment Method</h5>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="wiPay" value="wipay" checked>
+                                                <label class="form-check-label" for="wiPay">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-credit-card fa-2x text-primary me-2"></i>
+                                                        <span>WiPay</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="linx" value="linx">
+                                                <label class="form-check-label" for="linx">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-exchange-alt fa-2x text-success me-2"></i>
+                                                        <span>Linx</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="creditCard" value="credit">
+                                                <label class="form-check-label" for="creditCard">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="far fa-credit-card fa-2x text-danger me-2"></i>
+                                                        <span>Credit Card</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="debitCard" value="debit">
+                                                <label class="form-check-label" for="debitCard">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-money-check-alt fa-2x text-info me-2"></i>
+                                                        <span>Debit Card</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-primary mt-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-info-circle fa-2x me-3"></i>
+                                            <div>
+                                                <strong>Total Payment: <span id="totalPrice">$100 TTD</span></strong>
+                                                <div class="small">You will be redirected to the payment gateway after submitting your listing.</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -160,4 +266,26 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updatePrice() {
+    const tier = document.getElementById('listing_tier').value;
+    const priceElement = document.getElementById('totalPrice');
+    
+    if (tier === 'Premium') {
+        priceElement.textContent = '$200 TTD';
+    } else if (tier === 'Featured') {
+        priceElement.textContent = '$150 TTD';
+    } else {
+        priceElement.textContent = '$100 TTD';
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updatePrice();
+});
+</script>
 {% endblock %} 

@@ -5,7 +5,7 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    featured_products = Product.query.limit(4).all()
+    featured_products = Product.query.limit(96).all()
     return render_template('index.html', featured_products=featured_products)
 
 @bp.route('/about')
