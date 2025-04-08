@@ -96,6 +96,17 @@
                                         Available Categories: {{ categories|length if categories else 0 }}
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="listing_tier" class="form-label">Listing Tier</label>
+                                    <select class="form-select" id="listing_tier" name="listing_tier" required>
+                                        <option value="standard" {% if product.listing_tier == 'standard' %}selected{% endif %}>Standard</option>
+                                        <option value="featured" {% if product.listing_tier == 'featured' %}selected{% endif %}>Featured</option>
+                                        <option value="premium" {% if product.listing_tier == 'premium' %}selected{% endif %}>Premium</option>
+                                    </select>
+                                    <div class="form-text">
+                                        Standard: $100 | Featured: $150 | Premium: $200
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

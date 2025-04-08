@@ -170,6 +170,12 @@ def edit_listing(id):
     product.color = request.form.get('color')
     product.category_id = int(request.form.get('category_id'))
     
+    # Handle listing tier update
+    listing_tier = request.form.get('listing_tier', 'standard')
+    product.listing_tier = listing_tier
+    product.is_premium = listing_tier == 'premium'
+    product.is_featured = listing_tier in ['premium', 'featured']
+    
     # Handle image upload if new image is provided
     image = request.files.get('image')
     if image and allowed_file(image.filename):
