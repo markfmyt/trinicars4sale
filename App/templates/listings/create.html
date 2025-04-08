@@ -127,9 +127,9 @@
                                 <div class="col-md-6">
                                     <label for="listing_tier" class="form-label">Listing Tier</label>
                                     <select class="form-select" id="listing_tier" name="listing_tier" required onchange="updatePrice()">
-                                        <option value="Standard">Standard</option>
-                                        <option value="Featured">Featured</option>
-                                        <option value="Premium">Premium</option>
+                                        <option value="standard">Standard</option>
+                                        <option value="featured">Featured</option>
+                                        <option value="premium">Premium</option>
                                     </select>
                                 </div>
                             </div>
@@ -274,9 +274,9 @@ function updatePrice() {
     const tier = document.getElementById('listing_tier').value;
     const priceElement = document.getElementById('totalPrice');
     
-    if (tier === 'Premium') {
+    if (tier === 'premium') {
         priceElement.textContent = '$200 TTD';
-    } else if (tier === 'Featured') {
+    } else if (tier === 'featured') {
         priceElement.textContent = '$150 TTD';
     } else {
         priceElement.textContent = '$100 TTD';
